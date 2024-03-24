@@ -47,6 +47,8 @@ export class AllowList {
           port: Number(process.env.REPLICATOR_DB_PORT),
           database: process.env.REPLICATOR_DB_DATABASE,
         },
+        debug: true,
+        acquireConnectionTimeout: 300000, // 5 minute timeout
         pool: { min: 0, max: 100, propagateCreateError: false }, // Adjust pool settings as necessary
       });
     }
