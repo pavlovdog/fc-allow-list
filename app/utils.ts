@@ -33,8 +33,13 @@ export class AllowList {
     console.log('creating connection to db');
     this.knex = Knex({
       client: 'pg',
+      pool: {
+        min: 2,
+        max: 100
+      },
       connection: {
         pool: {
+          min: 2,
           max: 100
         },
         charset: 'utf8',
