@@ -13,8 +13,10 @@
     "update-framesjs": "yarn upgrade frames.js@latest && yarn run update-debugger"
   },
   "dependencies": {
+    "@aws-sdk/client-s3": "^3.540.0",
     "@farcaster/core": "^0.14.3",
     "@noble/ed25519": "^2.0.0",
+    "@types/uuid": "^9.0.8",
     "@vercel/kv": "^1.0.1",
     "@xmtp/frames-validator": "^0.5.0",
     "axios": "^1.6.8",
@@ -24,9 +26,11 @@
     "knex": "^3.1.0",
     "lucide-react": "^0.331.0",
     "next": "^14.1.0",
+    "pg": "^8.11.3",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "tailwindcss-animate": "^1.0.7"
+    "tailwindcss-animate": "^1.0.7",
+    "uuid": "^9.0.1"
   },
   "engines": {
     "node": ">=18.17.0"

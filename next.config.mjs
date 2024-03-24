@@ -20,6 +20,9 @@ const nextConfig = {
     }
     return config;
   },
+  experimental: {
+    serverComponentsExternalPackages: ['knex'],
+  }
 };
 
 export default nextConfig;

@@ -2,7 +2,10 @@
 import axios from "axios";
 import { createFrames, Button } from "frames.js/next";
 import { layout } from "../3-enter-cast/route";
-import Knex from 'knex';
+import { S3 } from '@aws-sdk/client-s3';
+import { AllowList, AllowListRecord } from "../utils";
+import { v4 as uuidv4 } from 'uuid';
+
 
 const frames = createFrames({
   basePath: "/",
@@ -44,18 +47,25 @@ const getCast = async function(
   }
 }
 
-// const knex = Knex({
-//   client: 'pg',
-//   connection: {
-//     charset: 'utf8',
-//     timezone: 'UTC',
-//     user: process.env.REPLICATOR_DB_USER,
-//     password: process.env.REPLICATOR_DB_PASSWORD,
-//     host: process.env.REPLICATOR_DB_HOST,
-//     port: Number(process.env.REPLICATOR_DB_PORT),
-//     database: process.env.REPLICATOR_DB_DATABASE,
-//   }
-// });
+const allowList = new AllowList();
+
+const createAllowList = async (
+  castHash: string,
+  castFid: number,
+  type: string,
+) => {
+  const records = await allowList.fetch(castHash, castFid, type);
+}
+
+
+const s3 = new S3({
+  region: process.env.S3_REGION,
+  endpoint: process.env.S3_ENDPOINT,
+  credentials: {
+    accessKeyId: process.env.S3_ACCESS_KEY as string,
+    secretAccessKey: process.env.S3_SECRET_ACCESS_KEY as string
+  }
+});
 
 // @ts-ignore
 const handleRequest = frames(async (ctx) => {
@@ -72,6 +82,29 @@ const handleRequest = frames(async (ctx) => {
   if (cast === null) {
     return layout(String(ctx.searchParams.allowListType), true);
   }
+
+  const id = uuidv4();
+
+  const key = `public/allow-lists/${id}.json`;
+
+  allowList.fetch(
+    cast.hash,
+    cast.author.fid,
+    String(ctx.searchParams.allowListType)
+  ).then(async (records: AllowListRecord[]) => {
+    console.log(`found ${records.length} records`);
+
+    // Upload list to S3
+    const uploadResult = await s3.putObject({
+      Bucket: process.env.S3_BUCKET,
+      Body: JSON.stringify(records),
+      Key: key,
+      ContentType: 'application/json',
+      ACL: 'public-read',
+    });
+
+    console.log('upload result', uploadResult);
+  });
 
   return {
     image: (
@@ -91,7 +124,7 @@ const handleRequest = frames(async (ctx) => {
       </Button>,
       <Button
         action="link"
-        target={"https://google.com"}
+        target={`https://snaphost.nyc3.cdn.digitaloceanspaces.com/${key}`}
       >
         Download allow list
       </Button>,
