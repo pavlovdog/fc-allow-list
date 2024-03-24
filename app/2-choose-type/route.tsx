@@ -22,7 +22,7 @@ const handleRequest = frames(async (ctx) => {
           pathname: '3-enter-cast'
         }}
       >
-        By likes
+        Like
       </Button>,
       <Button
       action="post"
@@ -33,7 +33,7 @@ const handleRequest = frames(async (ctx) => {
         pathname: '3-enter-cast'
       }}
     >
-      By comments
+      Comment
     </Button>,
   ],
   };

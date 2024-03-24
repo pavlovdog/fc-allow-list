@@ -100,7 +100,7 @@ const handleRequest = frames(async (ctx) => {
     // Upload list to S3
     const uploadResult = await s3.putObject({
       Bucket: process.env.S3_BUCKET,
-      Body: JSON.stringify(records),
+      Body: JSON.stringify(records.map(({ address }) => address)),
       Key: key,
       ContentType: 'application/json',
       ACL: 'public-read',
@@ -123,13 +123,13 @@ const handleRequest = frames(async (ctx) => {
           pathname: '1-start'
         }}
       >
-        Start again
+        Start over
       </Button>,
       <Button
         action="link"
         target={`https://snaphost.nyc3.cdn.digitaloceanspaces.com/${key}`}
       >
-        Download allow list
+        View allow list
       </Button>,
   ],
   };

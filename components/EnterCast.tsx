@@ -17,7 +17,7 @@ export const Layout = ({
             <p>Invalid cast url</p>
           )
         }
-        <p>Enter cast URL</p>
+        <p>Paste the cast url here</p>
       </div>
     ),
     buttons: [
@@ -34,6 +34,6 @@ export const Layout = ({
         Submit
       </Button>,
     ],
-    textInput: 'Enter cast URL'
+    textInput: 'Cast URL'
   };
 };

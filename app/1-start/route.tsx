@@ -9,7 +9,7 @@ const handleRequest = frames(async (ctx) => {
   return {
     image: (
       <div tw="flex flex-col">
-        <p>hola, welcome to allow list builder</p>
+        <p>Hola, welcome to allow list builder</p>
       </div>
     ),
     buttons: [
@@ -20,7 +20,7 @@ const handleRequest = frames(async (ctx) => {
           pathname: '2-choose-type'
         }}
       >
-        Build allow list
+        Create an allowlist
       </Button>,
     ],
   };
