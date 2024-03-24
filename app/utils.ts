@@ -30,9 +30,13 @@ export class AllowList {
   private knex: ReturnType<typeof Knex>;
 
   constructor() {
+    console.log('creating connection to db');
     this.knex = Knex({
       client: 'pg',
       connection: {
+        pool: {
+          max: 100
+        },
         charset: 'utf8',
         timezone: 'UTC',
         user: process.env.REPLICATOR_DB_USER,
