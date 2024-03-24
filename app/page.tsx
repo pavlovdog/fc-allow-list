@@ -11,7 +11,7 @@ export async function generateMetadata(): Promise<Metadata> {
     other: {
       ...(await fetchMetadata(
         new URL(
-          "1-start",
+          "/1-start",
           vercelURL() || "http://127.0.0.1:3000"
         )
       )),
