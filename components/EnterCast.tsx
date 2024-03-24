@@ -23,6 +23,7 @@ export const Layout = ({
     buttons: [
       <Button
         action="post"
+        key={0}
         target={{
           query: {
             allowListType,
