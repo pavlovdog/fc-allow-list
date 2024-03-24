@@ -12,7 +12,7 @@ export async function generateMetadata(): Promise<Metadata> {
       ...(await fetchMetadata(
         new URL(
           "1-start",
-          vercelURL() || "http://localhost:3000"
+          vercelURL() || "http://127.0.0.1:3000"
         )
       )),
     },
@@ -20,7 +20,7 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function Home() {
-  const url = currentURL("/examples/new-api-allow-list");
+  const url = currentURL("/");
 
   return (
     <div>

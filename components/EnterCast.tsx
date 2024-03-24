@@ -9,12 +9,18 @@ export const Layout = ({
   allowListType: string;
   invalidCastUrl: boolean;
 }) => {
-  return (
-    <div>
+  return {
+    image: (
       <div tw="flex flex-col">
-        {invalidCastUrl && <p>Invalid cast url</p>}
+        {
+          invalidCastUrl && (
+            <p>Invalid cast url</p>
+          )
+        }
         <p>Enter cast URL</p>
       </div>
+    ),
+    buttons: [
       <Button
         action="post"
         target={{
@@ -25,8 +31,8 @@ export const Layout = ({
         }}
       >
         Submit
-      </Button>
-      <p>Enter cast URL</p>
-    </div>
-  );
+      </Button>,
+    ],
+    textInput: 'Enter cast URL'
+  };
 };
