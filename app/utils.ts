@@ -1,5 +1,6 @@
 import { headers } from "next/headers";
 import Knex from 'knex';
+import { Client } from 'pg';
 
 export function currentURL(pathname: string): URL {
   const headersList = headers();
@@ -26,33 +27,35 @@ export type AllowListRecord = {
 }
 
 
-let knexInstance: any;
-
 
 export class AllowList {
   private knex: ReturnType<typeof Knex>;
+  private client: Client;
 
   constructor() {
-    if (!knexInstance) {
-      console.log('creating connection');
+    this.knex = Knex({
+      client: 'pg',
+      connection: {
+        charset: 'utf8',
+        timezone: 'UTC',
+        user: process.env.REPLICATOR_DB_USER,
+        password: process.env.REPLICATOR_DB_PASSWORD,
+        host: process.env.REPLICATOR_DB_HOST,
+        port: Number(process.env.REPLICATOR_DB_PORT),
+        database: process.env.REPLICATOR_DB_DATABASE,
+      },
+      debug: false,
+      acquireConnectionTimeout: 300000, // 5 minute timeout
+      pool: { min: 0, max: 100, propagateCreateError: false }, // Adjust pool settings as necessary
+    });
 
-      knexInstance = Knex({
-        client: 'pg',
-        connection: {
-          charset: 'utf8',
-          timezone: 'UTC',
-          user: process.env.REPLICATOR_DB_USER,
-          password: process.env.REPLICATOR_DB_PASSWORD,
-          host: process.env.REPLICATOR_DB_HOST,
-          port: Number(process.env.REPLICATOR_DB_PORT),
-          database: process.env.REPLICATOR_DB_DATABASE,
-        },
-        debug: true,
-        acquireConnectionTimeout: 300000, // 5 minute timeout
-        pool: { min: 0, max: 100, propagateCreateError: false }, // Adjust pool settings as necessary
-      });
-    }
-    this.knex = knexInstance;
+    this.client = new Client({
+      user: process.env.REPLICATOR_DB_USER,
+      password: process.env.REPLICATOR_DB_PASSWORD,
+      host: process.env.REPLICATOR_DB_HOST,
+      port: Number(process.env.REPLICATOR_DB_PORT),
+      database: process.env.REPLICATOR_DB_DATABASE,
+    });
   }
 
   public async fetch(
@@ -60,6 +63,12 @@ export class AllowList {
     castFid: number,
     type: string
   ) {
+    console.log('connect');
+    await this.client.connect();
+    console.log('now')
+    const result = await this.client.query('SELECT NOW()')
+    console.log(result)
+
     if (type === 'byLike') {
       return this.fetchByLikes(castHash, castFid);
     } else {
