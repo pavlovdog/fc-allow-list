@@ -1,10 +1,10 @@
 /* eslint-disable react/jsx-key */
 import axios from "axios";
 import { createFrames, Button } from "frames.js/next";
-import { layout } from "../3-enter-cast/route";
 import { S3 } from '@aws-sdk/client-s3';
 import { AllowList, AllowListRecord } from "../utils";
 import { v4 as uuidv4 } from 'uuid';
+import { Layout } from "../../components/EnterCast";
 
 
 const frames = createFrames({
@@ -80,7 +80,10 @@ const handleRequest = frames(async (ctx) => {
   console.log(cast);
 
   if (cast === null) {
-    return layout(String(ctx.searchParams.allowListType), true);
+    return Layout({
+      allowListType: String(ctx.searchParams.allowListType),
+      invalidCastUrl: true
+    });
   }
 
   const id = uuidv4();

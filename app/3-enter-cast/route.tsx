@@ -1,45 +1,20 @@
 /* eslint-disable react/jsx-key */
 import { createFrames, Button } from "frames.js/next";
+import { Layout } from "../../components/EnterCast";
 
 const frames = createFrames({
   basePath: "/",
 });
-
-export const layout = (allowListType: string, invalidCastUrl: boolean) => {
-  return {
-    image: (
-      <div tw="flex flex-col">
-        {
-          invalidCastUrl && (
-            <p>Invalid cast url</p>
-          )
-        }
-        <p>Enter cast URL</p>
-      </div>
-    ),
-    buttons: [
-      <Button
-        action="post"
-        target={{
-          query: {
-            allowListType,
-          },
-          pathname: '4-submit'
-        }}
-      >
-        Submit
-      </Button>,
-    ],
-    textInput: 'Enter cast URL'
-  }
-};
 
 
 // @ts-ignore
 const handleRequest = frames(async (ctx) => {
   const { allowListType } = ctx.searchParams;
 
-  return layout(String(allowListType), false);
+  return Layout({
+    allowListType: allowListType || "byLike",
+    invalidCastUrl: false,
+  });
 });
 
 export const GET = handleRequest;
