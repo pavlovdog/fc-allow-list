@@ -2,7 +2,7 @@
 
 Build an allow list, based on the comments/reactions left for some cast.
 
-## technical description
+## Technical description
 
 The project is made with `frames.js` framework. Neynar API and replicator DB are used to access Farcaster data, such as cast content, comments, and reactions.
 
