@@ -90,24 +90,24 @@ const handleRequest = frames(async (ctx) => {
 
   const key = `public/allow-lists/${id}.json`;
 
-  allowList.fetch(
-    cast.hash,
-    cast.author.fid,
-    String(ctx.searchParams.allowListType)
-  ).then(async (records: AllowListRecord[]) => {
-    console.log(`found ${records.length} records`);
+  // allowList.fetch(
+  //   cast.hash,
+  //   cast.author.fid,
+  //   String(ctx.searchParams.allowListType)
+  // ).then(async (records: AllowListRecord[]) => {
+  //   console.log(`found ${records.length} records`);
 
-    // Upload list to S3
-    const uploadResult = await s3.putObject({
-      Bucket: process.env.S3_BUCKET,
-      Body: JSON.stringify(records),
-      Key: key,
-      ContentType: 'application/json',
-      ACL: 'public-read',
-    });
+  //   // Upload list to S3
+  //   const uploadResult = await s3.putObject({
+  //     Bucket: process.env.S3_BUCKET,
+  //     Body: JSON.stringify(records),
+  //     Key: key,
+  //     ContentType: 'application/json',
+  //     ACL: 'public-read',
+  //   });
 
-    console.log('upload result', uploadResult);
-  });
+  //   console.log('upload result', uploadResult);
+  // });
 
   return {
     image: (
