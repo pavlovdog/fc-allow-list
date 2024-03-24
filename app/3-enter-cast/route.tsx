@@ -2,7 +2,7 @@
 import { createFrames, Button } from "frames.js/next";
 
 const frames = createFrames({
-  basePath: "/examples/new-api-allow-list",
+  basePath: "/",
 });
 
 export const layout = (allowListType: string, invalidCastUrl: boolean) => {
