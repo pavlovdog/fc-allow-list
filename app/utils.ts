@@ -26,39 +26,31 @@ export type AllowListRecord = {
 }
 
 
+let knexInstance: any;
+
+
 export class AllowList {
   private knex: ReturnType<typeof Knex>;
 
   constructor() {
-    console.log('creating connection to db');
-    this.knex = Knex({
-      client: 'pg',
-      pool: {
-        min: 2,
-        max: 100
-      },
-      connection: {
-        pool: {
-          min: 2,
-          max: 100
-        },
-        charset: 'utf8',
-        timezone: 'UTC',
-        user: process.env.REPLICATOR_DB_USER,
-        password: process.env.REPLICATOR_DB_PASSWORD,
-        host: process.env.REPLICATOR_DB_HOST,
-        port: Number(process.env.REPLICATOR_DB_PORT),
-        database: process.env.REPLICATOR_DB_DATABASE,
-      }
-    });
+    if (!knexInstance) {
+      console.log('creating connection');
 
-    console.log({
-      user: process.env.REPLICATOR_DB_USER,
-      password: process.env.REPLICATOR_DB_PASSWORD,
-      host: process.env.REPLICATOR_DB_HOST,
-      port: Number(process.env.REPLICATOR_DB_PORT),
-      database: process.env.REPLICATOR_DB_DATABASE,
-    });
+      knexInstance = Knex({
+        client: 'pg',
+        connection: {
+          charset: 'utf8',
+          timezone: 'UTC',
+          user: process.env.REPLICATOR_DB_USER,
+          password: process.env.REPLICATOR_DB_PASSWORD,
+          host: process.env.REPLICATOR_DB_HOST,
+          port: Number(process.env.REPLICATOR_DB_PORT),
+          database: process.env.REPLICATOR_DB_DATABASE,
+        },
+        pool: { min: 0, max: 100 }, // Adjust pool settings as necessary
+      });
+    }
+    this.knex = knexInstance;
   }
 
   public async fetch(
