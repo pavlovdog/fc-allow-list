@@ -1,4 +1,4 @@
-# Allowlist Builder
+# ☑️ Allowlist Builder
 
 Generate an allowlist of users (with their wallets connected on Farcaster) from the likes or comments on a specific cast.
 
