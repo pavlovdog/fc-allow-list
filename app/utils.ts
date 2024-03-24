@@ -42,6 +42,14 @@ export class AllowList {
         database: process.env.REPLICATOR_DB_DATABASE,
       }
     });
+
+    console.log({
+      user: process.env.REPLICATOR_DB_USER,
+      password: process.env.REPLICATOR_DB_PASSWORD,
+      host: process.env.REPLICATOR_DB_HOST,
+      port: Number(process.env.REPLICATOR_DB_PORT),
+      database: process.env.REPLICATOR_DB_DATABASE,
+    });
   }
 
   public async fetch(
