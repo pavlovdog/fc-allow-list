@@ -1,8 +1,8 @@
-# Allow list frame
+# Allowlist Builder
 
-Build an allow list, based on the comments/reactions left for some cast.
+Generate an allowlist of users (with their wallets connected on Farcaster) from the likes or comments on a specific cast.
 
-## Technical description
+## Technical Description
 
 The project is made with `frames.js` framework. Neynar API and replicator DB are used to access Farcaster data, such as cast content, comments, and reactions.
 
