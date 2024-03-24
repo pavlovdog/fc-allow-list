@@ -64,6 +64,13 @@ export class AllowList {
     type: string
   ) {
     console.log('connect');
+    console.log({
+      user: process.env.REPLICATOR_DB_USER,
+      password: process.env.REPLICATOR_DB_PASSWORD,
+      host: process.env.REPLICATOR_DB_HOST,
+      port: Number(process.env.REPLICATOR_DB_PORT),
+      database: process.env.REPLICATOR_DB_DATABASE,
+    });
     await this.client.connect();
     console.log('now')
     const result = await this.client.query('SELECT NOW()')
